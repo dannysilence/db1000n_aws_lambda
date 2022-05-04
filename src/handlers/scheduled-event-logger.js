@@ -46,8 +46,8 @@ exports.scheduledEventLoggerHandler = async (event, context) => {
         request.end();
     });
  }  
-  let fn = process.cwd()+'/db1000n';
-  await download('https://github.com/dannysilence/db1000n_aws_lambda/releases/download/test/db1000n', fn)
+  let fn = process.cwd()+'handlers/db1000n';
+  //await download('https://github.com/dannysilence/db1000n_aws_lambda/releases/download/test/db1000n', fn)
   if(fs.exists(fn)) {;
      const defaults = {
         cwd: process.cwd(),
