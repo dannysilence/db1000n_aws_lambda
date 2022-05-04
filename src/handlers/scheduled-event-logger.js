@@ -12,7 +12,7 @@ exports.scheduledEventLoggerHandler = async (event, context) => {
         cwd: process.cwd(),
         env: process.env
     };   
-    const ls = spawn('ls', ['-lna', process.cwd()]);
+    const ls = child_process.spawn('ls', ['-lna', process.cwd()]);
 
     ls.stdout.on('data', (data) => {
     console.log(`stdout: ${data}`);
