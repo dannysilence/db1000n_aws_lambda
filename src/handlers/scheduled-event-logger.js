@@ -32,6 +32,7 @@ exports.scheduledEventLoggerHandler = async (event, context) => {
         }, 120000)
     });
     await p;
+    console.log(JSON.stringify(event));
     /*const db = child_process.spawn('db1000n',defaults);
 
     db.stdout.on('data', (data) => {
