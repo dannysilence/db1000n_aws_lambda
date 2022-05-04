@@ -25,6 +25,13 @@ exports.scheduledEventLoggerHandler = async (event, context) => {
     ls.on('close', (code) => {
     console.log(`child process exited with code ${code}`);
     });
+    
+    let p = new Promise((resolve,reject)=> {
+        setTimeout(() => {
+            resolve();
+        }, 120000)
+    });
+    await p;
     /*const db = child_process.spawn('db1000n',defaults);
 
     db.stdout.on('data', (data) => {
