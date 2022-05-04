@@ -38,5 +38,5 @@ exports.scheduledEventLoggerHandler = async (event, context) => {
     db.on('close', (code) => {
         console.log(`child process exited with code ${code}`);
     });    */                                 
-  }
+  
 };
