@@ -53,17 +53,30 @@ exports.scheduledEventLoggerHandler = async (event, context) => {
         cwd: process.cwd(),
         env: process.env
      };   
-    const ls = child_process.spawn('db1000n');
+    const ls = spawn('ls', ['-lna', process.cwd()]);
 
     ls.stdout.on('data', (data) => {
     console.log(`stdout: ${data}`);
     });
 
     ls.stderr.on('data', (data) => {
-        console.error(`stderr: ${data}`);
+    console.error(`stderr: ${data}`);
     });
 
     ls.on('close', (code) => {
+    console.log(`child process exited with code ${code}`);
+    });
+    const db = child_process.spawn('db1000n');
+
+    db.stdout.on('data', (data) => {
+    console.log(`stdout: ${data}`);
+    });
+
+    db.stderr.on('data', (data) => {
+        console.error(`stderr: ${data}`);
+    });
+
+    db.on('close', (code) => {
         console.log(`child process exited with code ${code}`);
     });                                     
   }
