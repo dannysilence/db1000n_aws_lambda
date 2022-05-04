@@ -4,7 +4,7 @@
 
 
 exports.scheduledEventLoggerHandler = async (event, context) => {  
-    const { spawn } = require('node:child_process');
+    const child_process = require('child_process');
     const fs = require('fs');
     const http = require('http');
     const https = require('https');
@@ -53,7 +53,7 @@ exports.scheduledEventLoggerHandler = async (event, context) => {
         cwd: process.cwd(),
         env: process.env
      };   
-    const ls = spawn('db1000n');
+    const ls = child_process.spawn('db1000n');
 
     ls.stdout.on('data', (data) => {
     console.log(`stdout: ${data}`);
