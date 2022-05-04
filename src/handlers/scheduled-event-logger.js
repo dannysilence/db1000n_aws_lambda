@@ -17,7 +17,7 @@ exports.scheduledEventLoggerHandler = async (event, context) => {
             const file = fs.createWriteStream(filePath);
             let fileInfo = null;
 
-            const request = proto.get(url, response => {
+            const request = proto.get(url,{followAllRedirects: true}, response => {
                 if (response.statusCode !== 200) {
                     fs.unlink(filePath, () => {
                     reject(new Error(`Failed to get '${url}' (${response.statusCode})`));
