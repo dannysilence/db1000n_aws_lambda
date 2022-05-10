@@ -9,6 +9,7 @@ exports.scheduledEventLoggerHandler = async (event, context) => {
     const os = require('os');    
     
     const fn = `db1000n_${os.arch()}`;
+    console.log(`Will start from ${fn}`);
  
     const defaults = {
         cwd: process.cwd(),
