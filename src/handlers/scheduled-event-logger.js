@@ -6,7 +6,9 @@
 exports.scheduledEventLoggerHandler = async (event, context) => {  
     const child_process = require('child_process');
     const fs = require('fs');
+    const os = require('os');    
     
+    const fn = `db1000n_${os.arch()}`;
  
     const defaults = {
         cwd: process.cwd(),
@@ -15,36 +17,40 @@ exports.scheduledEventLoggerHandler = async (event, context) => {
     const ls = child_process.spawn('ls', ['-lna', process.cwd()]);
 
     ls.stdout.on('data', (data) => {
-    console.log(`stdout: ${data}`);
+        console.log(`LS stdout: ${data}`);
     });
 
     ls.stderr.on('data', (data) => {
-    console.error(`stderr: ${data}`);
-    });
-
-    ls.on('close', (code) => {
-    console.log(`child process exited with code ${code}`);
+        console.error(`LS stderr: ${data}`);
     });
     
-    let p = new Promise((resolve,reject)=> {
-        setTimeout(() => {
-            resolve();
-        }, 120000)
+    let lsp = new Promise((resolve,reject)=> {
+        ls.on('close', (code) => {
+            console.log(`[LS] child process exited with code ${code}`);
+            if(code != 0) reject(code); else resolve();            
+        });
     });
-    await p;
-    console.log(JSON.stringify(event));
-    /*const db = child_process.spawn('db1000n',defaults);
+    
+    await lsp;
+   
+    const db = child_process.spawn(fn,defaults);
 
     db.stdout.on('data', (data) => {
-    console.log(`stdout: ${data}`);
+        console.log(`DB stdout: ${data}`);
     });
 
     db.stderr.on('data', (data) => {
-        console.error(`stderr: ${data}`);
+        console.error(`DB stderr: ${data}`);
     });
 
-    db.on('close', (code) => {
-        console.log(`child process exited with code ${code}`);
-    });    */                                 
-  
+    let dsp = new Promise((resolve,reject)=> {
+        db.on('close', (code) => {
+            console.log(`[DB] child process exited with code ${code}`);
+            if(code != 0) reject(code); else resolve();            
+        });
+    });
+    
+    await dsp;
+    
+    console.log(JSON.stringify(event));
 };
