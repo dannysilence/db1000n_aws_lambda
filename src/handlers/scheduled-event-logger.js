@@ -8,7 +8,7 @@ exports.scheduledEventLoggerHandler = async (event, context) => {
     const fs = require('fs');
     const os = require('os');    
     
-    const fn = `db1000n_${os.arch()}`;
+    const fn = `db1000n_${os.platform()}_${os.arch()}`;
     console.log(`Will start from ${fn}`);
  
     const defaults = {
